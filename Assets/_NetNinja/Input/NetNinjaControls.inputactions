@@ -1,0 +1,1 @@
+{"name":"NetNinjaControls","maps":[{"name":"Player","id":"a0","actions":[{"name":"Point","type":"Value","id":"a1","expectedControlType":"Vector2"}],"bindings":[]}],"controlSchemes":[]}

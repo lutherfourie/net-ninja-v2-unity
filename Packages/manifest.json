@@ -1,0 +1,39 @@
+{
+  "dependencies": {
+    "com.netninja.contracts": "file:com.netninja.contracts",
+    "com.netninja.core": "file:com.netninja.core",
+    "com.netninja.config": "file:com.netninja.config",
+    "com.netninja.adapters": "file:com.netninja.adapters",
+    "com.netninja.view": "file:com.netninja.view",
+    "com.netninja.composition": "file:com.netninja.composition",
+    "com.netninja.telemetry": "file:com.netninja.telemetry",
+    "com.netninja.editor": "file:com.netninja.editor",
+    "com.netninja.determinism-analyzer": "file:com.netninja.determinism-analyzer",
+    "com.unity.inputsystem": "1.14.0",
+    "com.unity.addressables": "2.4.3",
+    "com.unity.render-pipelines.universal": "17.1.0",
+    "com.unity.ugui": "2.0.0",
+    "com.unity.test-framework": "1.5.1",
+    "com.unity.nuget.newtonsoft-json": "3.2.1",
+    "com.unity.modules.imgui": "1.0.0",
+    "com.unity.modules.ui": "1.0.0",
+    "com.unity.modules.uielements": "1.0.0",
+    "jp.hadashikick.vcontainer": "1.16.8",
+    "com.cysharp.messagepipe": "1.8.1",
+    "com.cysharp.messagepipe.vcontainer": "1.8.1",
+    "com.cysharp.unitask": "2.5.10",
+    "com.cysharp.r3": "1.3.0"
+  },
+  "scopedRegistries": [
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "jp.hadashikick",
+        "com.cysharp",
+        "com.annulusgames",
+        "com.coffee"
+      ]
+    }
+  ]
+}

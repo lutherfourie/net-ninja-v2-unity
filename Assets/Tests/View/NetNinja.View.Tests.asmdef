@@ -1,0 +1,14 @@
+{
+  "name": "NetNinja.View.Tests",
+  "references": [
+    "NetNinja.Contracts",
+    "NetNinja.View",
+    "UnityEngine.TestRunner"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ]
+}

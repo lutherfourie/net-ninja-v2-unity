@@ -1,0 +1,12 @@
+name: webgl-parity
+on:
+  workflow_dispatch:
+jobs:
+  webgl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Placeholder
+        run: |
+          echo "Requires secrets.UNITY_LICENSE + WebGL player + headless hash capture."
+          exit 0

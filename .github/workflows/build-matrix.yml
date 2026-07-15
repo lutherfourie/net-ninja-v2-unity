@@ -1,0 +1,16 @@
+name: build-matrix
+on:
+  workflow_dispatch:
+jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [Android, WebGL]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Placeholder
+        run: |
+          echo "Build ${{ matrix.target }} via game-ci/unity-builder when UNITY_LICENSE is present."
+          echo "iOS: Linux exports Xcode project only; device build on macOS runner."
+          exit 0
