@@ -1,0 +1,11 @@
+C:\GameDev\net-ninja-skeleton\Tools\determinism-analyzer\bin\Release\netstandard2.0\NetNinja.Determinism.Analyzer.deps.json
+C:\GameDev\net-ninja-skeleton\Tools\determinism-analyzer\bin\Release\netstandard2.0\NetNinja.Determinism.Analyzer.dll
+C:\GameDev\net-ninja-skeleton\Tools\determinism-analyzer\bin\Release\netstandard2.0\NetNinja.Determinism.Analyzer.pdb
+C:\GameDev\net-ninja-skeleton\Tools\determinism-analyzer\obj\Release\netstandard2.0\NetNinja.Determinism.Analyzer.csproj.AssemblyReference.cache
+C:\GameDev\net-ninja-skeleton\Tools\determinism-analyzer\obj\Release\netstandard2.0\NetNinja.Determinism.Analyzer.GeneratedMSBuildEditorConfig.editorconfig
+C:\GameDev\net-ninja-skeleton\Tools\determinism-analyzer\obj\Release\netstandard2.0\NetNinja.Determinism.Analyzer.AssemblyInfoInputs.cache
+C:\GameDev\net-ninja-skeleton\Tools\determinism-analyzer\obj\Release\netstandard2.0\NetNinja.Determinism.Analyzer.AssemblyInfo.cs
+C:\GameDev\net-ninja-skeleton\Tools\determinism-analyzer\obj\Release\netstandard2.0\NetNinja.Determinism.Analyzer.csproj.CoreCompileInputs.cache
+C:\GameDev\net-ninja-skeleton\Tools\determinism-analyzer\obj\Release\netstandard2.0\NetNinja.Determinism.Analyzer.sourcelink.json
+C:\GameDev\net-ninja-skeleton\Tools\determinism-analyzer\obj\Release\netstandard2.0\NetNinja.Determinism.Analyzer.dll
+C:\GameDev\net-ninja-skeleton\Tools\determinism-analyzer\obj\Release\netstandard2.0\NetNinja.Determinism.Analyzer.pdb

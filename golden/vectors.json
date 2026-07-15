@@ -1,0 +1,72 @@
+{
+  "configHash": "6c3a8288f02919a3",
+  "ticks": 3600,
+  "cells": [
+    {
+      "persona": "perfect",
+      "seed": 42,
+      "ticks": 3600,
+      "runHash": "d0c06d2ab7582d33",
+      "checkpoints": {
+        "900": "bbd161fd92dbbb94",
+        "1800": "e223303ab5ca7e33",
+        "3599": "e223303ab5ca7e33"
+      }
+    },
+    {
+      "persona": "average",
+      "seed": 42,
+      "ticks": 3600,
+      "runHash": "0d02b0901d6cb459",
+      "checkpoints": {
+        "900": "3937a830722f2687",
+        "1800": "69a7a69ea63de60f",
+        "3599": "69a7a69ea63de60f"
+      }
+    },
+    {
+      "persona": "sloppy",
+      "seed": 42,
+      "ticks": 3600,
+      "runHash": "7d2d58eacc5ae283",
+      "checkpoints": {
+        "900": "7e39cd4066316887",
+        "1800": "256e2d43d8ce7be4",
+        "3599": "256e2d43d8ce7be4"
+      }
+    },
+    {
+      "persona": "perfect",
+      "seed": 1,
+      "ticks": 3600,
+      "runHash": "dbae327e1e83e367",
+      "checkpoints": {
+        "900": "94ac132dac90e918",
+        "1800": "27754ffdd0c2cc9c",
+        "3599": "686fc01dde3668d8"
+      }
+    },
+    {
+      "persona": "average",
+      "seed": 7,
+      "ticks": 3600,
+      "runHash": "eb11606352402cba",
+      "checkpoints": {
+        "900": "4ffac8e6558c5599",
+        "1800": "1e281b3b5022970e",
+        "3599": "1e281b3b5022970e"
+      }
+    },
+    {
+      "persona": "perfect-nocorr",
+      "seed": 42,
+      "ticks": 3600,
+      "runHash": "8bc6230f8442a086",
+      "checkpoints": {
+        "900": "b126b320d5e9618d",
+        "1800": "074996c749b4763e",
+        "3599": "074996c749b4763e"
+      }
+    }
+  ]
+}

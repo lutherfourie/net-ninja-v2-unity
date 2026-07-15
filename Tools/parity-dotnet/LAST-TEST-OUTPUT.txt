@@ -1,0 +1,7 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  NetNinja.Core.Parity.Tests -> C:\GameDev\net-ninja-skeleton\Tools\parity-dotnet\bin\Release\net10.0\NetNinja.Core.Parity.Tests.dll
+Test run for C:\GameDev\net-ninja-skeleton\Tools\parity-dotnet\bin\Release\net10.0\NetNinja.Core.Parity.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration: 166 ms - NetNinja.Core.Parity.Tests.dll (net10.0)
