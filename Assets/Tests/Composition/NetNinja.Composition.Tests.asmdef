@@ -1,0 +1,19 @@
+{
+  "name": "NetNinja.Composition.Tests",
+  "references": [
+    "NetNinja.Contracts",
+    "NetNinja.Core",
+    "NetNinja.Config",
+    "NetNinja.Adapters",
+    "NetNinja.View",
+    "NetNinja.Composition",
+    "VContainer",
+    "UnityEngine.TestRunner"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ]
+}

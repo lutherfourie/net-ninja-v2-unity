@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+  <ui:VisualElement class="nn-shell">
+    <ui:Label name="title" text="Net Ninja Workstation" class="nn-shell__title"/>
+    <ui:VisualElement name="content" class="nn-shell__content"/>
+  </ui:VisualElement>
+</ui:UXML>

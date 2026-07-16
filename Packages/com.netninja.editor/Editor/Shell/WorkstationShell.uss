@@ -1,0 +1,8 @@
+
+.nn-shell { padding: 8px; flex-grow: 1; }
+.nn-shell__title { font-size: 14px; -unity-font-style: bold; margin-bottom: 8px; }
+.nn-shell__content { flex-grow: 1; }
+.nn-hash-badge { padding: 4px 8px; background-color: rgb(40,40,48); color: rgb(120,220,160); margin: 4px 0; }
+.nn-key-row { flex-direction: row; margin: 2px 0; }
+.nn-key-row > .nn-key { width: 280px; }
+.nn-key-row > .nn-val { flex-grow: 1; }

@@ -1,0 +1,17 @@
+{
+  "name": "NetNinja.Conformance.Tests",
+  "references": [
+    "NetNinja.Contracts",
+    "NetNinja.Core",
+    "UnityEngine.TestRunner",
+    "UnityEditor.TestRunner",
+    "Unity.Newtonsoft.Json"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "defineConstraints": [
+    "UNITY_INCLUDE_TESTS"
+  ],
+  "includePlatforms": []
+}

@@ -1,0 +1,17 @@
+name: tier-1 check
+on:
+  pull_request:
+  push:
+    branches: [main, feat/**]
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+      - name: Tier-1 pure .NET
+        run: |
+          dotnet build Tools/determinism-analyzer/NetNinja.Determinism.Analyzer.csproj -c Release
+          dotnet test Tools/parity-dotnet/NetNinja.Core.Parity.Tests.csproj -c Release --nologo

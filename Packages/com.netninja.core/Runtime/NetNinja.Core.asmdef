@@ -1,0 +1,16 @@
+{
+    "name": "NetNinja.Core",
+    "rootNamespace": "NetNinja.Core",
+    "references": [
+        "NetNinja.Contracts"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

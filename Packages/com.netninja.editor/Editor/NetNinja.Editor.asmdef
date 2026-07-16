@@ -1,0 +1,22 @@
+{
+    "name": "NetNinja.Editor",
+    "rootNamespace": "NetNinja.Editor",
+    "references": [
+        "NetNinja.Contracts",
+        "NetNinja.Core",
+        "NetNinja.Config",
+        "NetNinja.Adapters",
+        "VContainer"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

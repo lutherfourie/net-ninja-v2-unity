@@ -1,0 +1,14 @@
+name: unity-tests (tier-2)
+on:
+  workflow_dispatch:
+  # pull_request: enable when UNITY_LICENSE secret is set
+jobs:
+  editmode:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Placeholder
+        run: |
+          echo "Requires secrets.UNITY_LICENSE (Unity grant). Yellow until added."
+          echo "Then: game-ci/unity-test-runner with unityVersion 6000.4.3f1"
+          exit 0

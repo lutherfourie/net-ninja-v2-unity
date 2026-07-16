@@ -1,0 +1,48 @@
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+*.apk
+*.aab
+*.unitypackage
+*.app
+sysinfo.txt
+crashlytics-build.properties
+boot.config
+
+# Per-worktree
+.utmp/
+
+# IDE
+.vs/
+.idea/
+*.csproj.user
+*.suo
+*.user
+*.userprefs
+
+# .NET
+**/bin/
+**/obj/
+*.user
+*.DotSettings.user
+TestResults/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local secrets
+.env
+.env.*
+*.pem
