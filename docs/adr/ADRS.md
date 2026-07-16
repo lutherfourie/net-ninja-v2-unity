@@ -12,13 +12,13 @@
 
 ## ADR-0002 — Determinism via portable double-only FP with an ALLOWLIST analyzer
 
-**Decision.** Contracts, Core, and the persona drivers use double everywhere with only + - * / and Math.Sqrt. A Roslyn ALLOWLIST analyzer permits only Math.{Sqrt,Abs,Min,Max,Floor,Ceiling,Truncate} and errors on the float keyword, Mathf, UnityEngine.Random, Burst, Unity.Mathematics, and every other System.Math member (Pow/Exp/Sin/Cos/Tan/Log/Log10/Atan2/Sinh/Cbrt/IEEERemainder…). Transcendentals are pre-baked into config literals offline. No wall-clock; seeded rng and const DT=1/60 only.
+**Decision.** Contracts, Core, and the persona drivers use double everywhere with only + - * / and Math.Sqrt. The SHIPPED Roslyn ALLOWLIST analyzer (`AllowlistMathAnalyzer.cs:38-41`) permits Math.{Sqrt,Abs,Min,Max,Floor,Ceiling,Truncate} PLUS the provisional plant set {Log,Log2,Cos} — relaxed for the persona Box–Muller/Fitts terms (see ADR-0018) — and errors on the float keyword, Mathf, UnityEngine.Random, Burst, Unity.Mathematics, and every other System.Math member (Pow/Exp/Sin/Tan/Log10/Atan2/Sinh/Cbrt/IEEERemainder…). NOTE (enforcement, as-shipped, ADR-0018): the guard that actually runs is a REGEX SCAN (`\bfloat\b` + `Math.Exp`) in `AnalyzerTripTests`; the Roslyn allowlist analyzer exists but is NOT yet wired as an `<Analyzer>` — wiring is a declared fast-follow. Non-persona transcendentals are pre-baked into config literals offline. No wall-clock; seeded rng and const DT=1/60 only.
 
 **Rationale.** IEEE-754 mandates + - * / and sqrt are correctly-rounded; C# double == JS binary64, so bit-parity is achievable. The original denylist (float/Mathf/Random) missed System.Math transcendentals, which are plain engine-free double and would compile silently — the exact trap this ADR exists to close. An allowlist is the only guard that catches them.
 
 **Alternatives.** Denylist of engine types only (rejected: lets Math.Exp through); fixed-point 32.32 (rejected: incompatible with JS f64 vectors); float (rejected: breaks parity); soft-float (risk-register escape hatch only).
 
-**Consequences.** The analyzer is a shipped asmdef with its own planted-violation tests; Math.Sqrt is the single audited call site; parity is re-proven on arm64 + WebGL, not just editor Mono.
+**Consequences.** The analyzer source ships with its own planted-violation trip tests but is NOT yet wired into the build (regex scan is the live guard; Roslyn wiring is a fast-follow — ADR-0018); Sqrt/Log/Log2/Cos are the audited System.Math call sites (Log/Log2/Cos persona-only); parity is re-proven on arm64 + WebGL, not just editor Mono.
 
 ## ADR-0003 — No Burst/DOTS/Unity.Mathematics in the core; IL2CPP fp-contract=off
 
@@ -169,3 +169,21 @@
 **Alternatives.** Cross with UnityEngine.Vector3 (rejected: float in the gate); leave the crossing type unspecified (rejected: View has nothing to name); put Vec3 in Core (rejected: consumers would need Core internals — Contracts is the shared home).
 
 **Consequences.** Vec3 lives in Contracts and is analyzer-guarded; the double→float boundary is a single audited site in View; the law guard forbids UnityEngine.Vector3 in Contracts/Core.
+
+## ADR-0018 — Persona transcendentals are provisionally accepted and non-gating; sim is the only parity surface (OWNER-PENDING)
+
+**Status.** Accepted (persona resolution fork is OWNER-PENDING — Luther). Supersedes the contradicted clauses of ADR-0002 (the strict allowlist list) and ADR-0008 (persona bit-exactness + "must be resolved BEFORE the port").
+
+**Decision.** Confine the honesty debt to a single record. The persona/bot PLANT (`IntentMotorDriver` in `Packages/com.netninja.core/Runtime/Personas/MotorPlant.cs`) uses transcendentals: `Fp.Log`/`Fp.Cos` for Box–Muller Gaussian noise at MotorPlant.cs:140 and :147, and `Fp.Log2` for the Fitts movement-time term at :304, :494, :523, :531, :537, :541 (wrappers `Fp.Log`/`Fp.Log2`/`Fp.Cos` at Fp.cs:26-28, each forwarding to `System.Math`). These are PROVISIONALLY ACCEPTED and CONFINED to bot input generation. Grep across `Packages/com.netninja.core/Runtime` + `Packages/com.netninja.contracts/Runtime` verifies ZERO transcendentals in the sim, scoring, or hasher — the twinned (parity-gated) surface is clean; only the untwinned persona surface uses libm.
+
+**Parity scope (as-shipped).** The golden gate (`Tools/parity-dotnet/GoldenVectorTests.cs`) is scoped to SIM-ONLY conformance via ORACLE-TRACE REPLAY: it feeds net-lab's exported per-tick target frames (`golden/traces/{persona}@{seed}.json`) into the C# sim and asserts FNV run+checkpoint parity, deliberately isolating sim bit-parity from plant libm ULP. LIVE-PERSONA runs (running the C# `IntentMotorDriver` itself) DIVERGE from the net-lab oracle at tick 125 (`perfect@42`, first Box–Muller Cos/Log ULP). Therefore persona↔oracle bit-parity is UNMET and is currently NOT a gate; only the sim is a parity surface.
+
+**arm64/WebGL plant parity is an OPEN RISK.** libm `Log`/`Log2`/`Cos` are not correctly-rounded and may differ across CoreCLR/IL2CPP-arm64/emscripten. This risk is BOT-ONLY (persona input generation) and never touches gameplay, sim evolution, scoring, or the hashed state.
+
+**Resolution fork (OWNER-PENDING — Luther).** Until he rules, treat personas as non-gating.
+- (A) Bless the split: personas are explicitly NON-TWINNED; the sim is the only parity surface; keep the provisional allowlist (Log/Log2/Cos) and the oracle-trace-replay gate as the permanent shape.
+- (B) Hold ADR-0008's original bar: pre-bake the Gaussian/Fitts terms (or otherwise remove runtime transcendentals from the plant), restore the strict Sqrt-only allowlist, and require personas to be bit-exact against the net-lab oracle.
+
+**Rationale.** ADR-0002's allowlist and ADR-0008's "persona generation MUST be bit-exact … resolved BEFORE the port" were written before the port revealed that the plant's Box–Muller/Fitts terms need libm. The shipped analyzer already relaxed the allowlist to admit Log/Log2/Cos (`Tools/determinism-analyzer/AllowlistMathAnalyzer.cs:38-41`), and the gate already replays oracle traces rather than running live personas. This ADR makes the as-built split explicit and honest rather than leaving two ADRs contradicted silently, and hands the real design choice to the owner.
+
+**Consequences.** Personas are non-gating until Luther rules on the fork; the sim-only oracle-trace-replay gate stays green (15/15) as the merge gate; the `LivePersona_MatchesOracleTargets_UntilPlantUlp` test documents the tick-125 boundary rather than asserting parity; arm64/WebGL plant parity stays ledgered as an OPEN, bot-only risk.

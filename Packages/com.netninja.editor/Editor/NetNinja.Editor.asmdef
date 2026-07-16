@@ -6,7 +6,6 @@
         "NetNinja.Core",
         "NetNinja.Config",
         "NetNinja.Adapters",
-        "TriInspector",
         "VContainer"
     ],
     "includePlatforms": [

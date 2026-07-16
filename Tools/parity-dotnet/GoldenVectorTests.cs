@@ -11,6 +11,9 @@ using NUnit.Framework;
 
 namespace NetNinja.Core.Parity.Tests
 {
+    /// <summary>
+    /// Sim-only conformance via oracle-trace replay — personas are NOT gated here (ADR-0018).
+    /// </summary>
     [TestFixture]
     public class GoldenVectorTests
     {
