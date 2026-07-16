@@ -190,7 +190,7 @@ This REVISES the original "Unity Editor IS the Design Workstation" call, which c
 
 ## ADR-0018 — Persona transcendentals are provisionally accepted and non-gating; sim is the only parity surface (OWNER-PENDING)
 
-**Status.** Accepted (persona resolution fork is OWNER-PENDING — Luther). Supersedes the contradicted clauses of ADR-0002 (the strict allowlist list) and ADR-0008 (persona bit-exactness + "must be resolved BEFORE the port").
+**Status.** Accepted. **Fork RULED 2026-07-16 — option (A)** (lead ruling under the team-lead mandate): personas are non-twinned bot input generators; the SIM is the only parity surface; persona↔oracle bit-exactness is a non-goal. Browser-only shipping (ADR-0019/DESIGN-PREMISE) further lowers the stakes: wasm's strict IEEE-754 keeps even the transcendental plant consistent on the ship surface. Supersedes the contradicted clauses of ADR-0002 (the strict allowlist list) and ADR-0008 (persona bit-exactness + "must be resolved BEFORE the port").
 
 **Decision.** Confine the honesty debt to a single record. The persona/bot PLANT (`IntentMotorDriver` in `Packages/com.netninja.core/Runtime/Personas/MotorPlant.cs`) uses transcendentals: `Fp.Log`/`Fp.Cos` for Box–Muller Gaussian noise at MotorPlant.cs:140 and :147, and `Fp.Log2` for the Fitts movement-time term at :304, :494, :523, :531, :537, :541 (wrappers `Fp.Log`/`Fp.Log2`/`Fp.Cos` at Fp.cs:26-28, each forwarding to `System.Math`). These are PROVISIONALLY ACCEPTED and CONFINED to bot input generation. Grep across `Packages/com.netninja.core/Runtime` + `Packages/com.netninja.contracts/Runtime` verifies ZERO transcendentals in the sim, scoring, or hasher — the twinned (parity-gated) surface is clean; only the untwinned persona surface uses libm.
 
