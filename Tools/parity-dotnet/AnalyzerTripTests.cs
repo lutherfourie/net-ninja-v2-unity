@@ -19,7 +19,7 @@ namespace NetNinja.Core.Parity.Tests
             var dir = new DirectoryInfo(TestContext.CurrentContext.TestDirectory);
             while (dir != null)
             {
-                if (Directory.Exists(Path.Combine(dir.FullName, "Packages", "com.netninja.core")))
+                if (Directory.Exists(Path.Combine(dir.FullName, "Assets", "_NetNinja", "Core")))
                     return dir.FullName;
                 dir = dir.Parent;
             }
@@ -29,9 +29,10 @@ namespace NetNinja.Core.Parity.Tests
         static IEnumerable<string> AllCoreAndContractCs()
         {
             var root = FindRepoRoot();
-            foreach (var f in Directory.GetFiles(Path.Combine(root, "Packages", "com.netninja.core", "Runtime"), "*.cs", SearchOption.AllDirectories))
+            // Sources moved Packages/com.netninja.{core,contracts}/Runtime → Assets/_NetNinja/{Core,Contracts} (ADR-0019).
+            foreach (var f in Directory.GetFiles(Path.Combine(root, "Assets", "_NetNinja", "Core"), "*.cs", SearchOption.AllDirectories))
                 yield return f;
-            foreach (var f in Directory.GetFiles(Path.Combine(root, "Packages", "com.netninja.contracts", "Runtime"), "*.cs", SearchOption.AllDirectories))
+            foreach (var f in Directory.GetFiles(Path.Combine(root, "Assets", "_NetNinja", "Contracts"), "*.cs", SearchOption.AllDirectories))
                 yield return f;
         }
 

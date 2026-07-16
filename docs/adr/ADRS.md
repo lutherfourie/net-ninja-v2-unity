@@ -1,14 +1,19 @@
 # Net Ninja — Architecture Decision Records
 
-## ADR-0001 — Unity Editor IS the Design Workstation
+## ADR-0001 — Unity Editor is the engine-native authoring + port-verification surface, not a second design authority
 
-**Decision.** Make custom UI Toolkit Editor Windows the first-class authoring authority for Net Ninja (config/wave, persona runner, tempo/DDA, failure-mode diagnostics, batch matrix, telemetry inspector, golden-vector parity), superseding net-lab ADR-0024–0028. The Config/Key Editor window is FUNCTIONAL this pass (exercising the authority claim); the other 7 ship as compiling stubs. The React/net-lab workstation becomes reference/legacy that seeds golden vectors.
+**Decision.** Draw the authoring boundary by ARTIFACT CLASS, not by tool:
+- **The web workstation (net-lab, ADR-0024–0028) OWNS rule-bearing authoring** — config/tunables, waves, sweep-policy params, perks/economy, DDA/tempo, batch-matrix definitions, VFX specs, UI artifacts, and scene-LAYOUT data. These export as truth (ADR-0011).
+- **The Unity Editor OWNS engine-native authoring ONLY** — prefabs, `.unity` scenes, URP/materials/shaders, sprite + animation import, addressables, the build, and the double→float View projection.
+- **Unity Editor windows are IMPORTERS / INSPECTORS / RUNNERS, never rule-authoring surfaces:** config-import (ADR-0007), a read-only parity/telemetry/golden-vector inspector, the persona *runner* (generates traces to check the port), and SO generators that transform exported specs. Any hand-authored rule-bearing data in-editor is an **Untwinned Port** = ledgered fidelity debt (ADR-0011's one-way law).
 
-**Rationale.** Because the core is engine-free C#, Editor Windows run the real sim headless in edit mode; workstation and runtime share seam definitions, not code paths. Shipping one functional authoring window this pass proves the thesis rather than asserting it. This is Luther's locked BOLD call.
+This REVISES the original "Unity Editor IS the Design Workstation" call, which claimed authoring authority superseding net-lab 0024–0028. See ADR-0019 and `docs/reviews/2026-07-16-4call-stress.md` (adr1-workstation verdict: NARROW).
 
-**Alternatives.** Keep the React workstation as authority (rejected: two toolchains, drift); IMGUI tooling (rejected: weaker binding/theming than UITK); paid Odin (rejected: free/OSS-only); all-8-stubs with no functional window (rejected: config-round-trip success criterion would have nothing behind it).
+**Rationale.** The sound half of the original thesis survives: because Contracts+Core are engine-free C#, Editor windows run the real sim headless in edit mode, so Unity is a genuine port-VERIFICATION surface. But rebuilding rule-bearing authoring in-editor recreates the estate's documented death loop — parallel authoring surfaces → drift → abandonment (net-lab already measured a 55.5%-fidelity resim drift from dual authoring). pawfall's real Unity editor surface is almost entirely engine-native asset pipeline; its rule-bearing tuning already lives as exported data, not in editor windows.
 
-**Consequences.** NetNinja.Editor is a load-bearing seam; windows are one-per-file for agent parallelism; config authored as text-serialized SO under version control; the functional Config window plus config-import must land this pass.
+**Alternatives.** Unity as authoring authority superseding net-lab (rejected: dual rule-bearing surfaces, the exact drift census); freeze net-lab so Unity can own authoring (rejected: ADR-0011 keeps net-lab a LIVE oracle whose export is re-run, so it stays authored); IMGUI/Odin tooling debates (moot once Unity stops authoring rules).
+
+**Consequences.** The 7 non-functional windows are re-intented author→inspect/import (header comments only this pass; no functional change). The functional Config/Key **Editor** window keeps its place because it already *imports* per ADR-0007 (not re-typing literals). NetNinja.Editor stays a load-bearing seam but a CONSUME/VERIFY one; config remains text-serialized SO under version control, imported (never hand-typed) for parity keys.
 
 ## ADR-0002 — Determinism via portable double-only FP with an ALLOWLIST analyzer
 
@@ -42,6 +47,8 @@
 
 ## ADR-0005 — Typed telemetry contract bus — schema in Contracts, sink in Core, MessagePipe at the edge
 
+> **Partially superseded by ADR-0019** (stack strip): MessagePipe is dropped; telemetry fan-out is a plain typed sink (`List<Action<T>>`). The schema-in-Contracts / hand-rolled-sink-in-Core split below still stands.
+
 **Decision.** Event schema lives as readonly structs in NetNinja.CONTRACTS (revised from 'defined in Core'). Core writes them to a deterministic per-tick journal via a hand-rolled ITelemetrySink (Contracts interface). The Unity adapter is the only layer that knows MessagePipe; it drains the journal post-tick, republishes via IPublisher<T>, and stamps run-context with one global MessageHandlerFilter.
 
 **Rationale.** View subscribes to (StateSnapshot, events) but references only Contracts, so the event types MUST live in Contracts for View to name them — the prior 'defined in Core' wording made View structurally unable to receive events. Moving schema to Contracts fixes the crossing while keeping the hand-rolled deterministic sink in Core.
@@ -51,6 +58,8 @@
 **Consequences.** MessagePipe open-generics need explicit per-type registration for IL2CPP/WebGL — generate the list from the event enum (Tools/registration-gen) and verify on the arm64 + WebGL rings.
 
 ## ADR-0006 — VContainer composition root with View wired as ILateTickable
+
+> **Superseded by ADR-0019** (stack strip): VContainer/R3/MessagePipe/UniTask are removed; the composition root is a plain `Bootstrap : MonoBehaviour` (FixedUpdate → sim step, LateUpdate → view-apply). The view-never-writes-core intent is preserved structurally by the seam, not by DI entry-point ordering. Retained below as the historical record.
 
 **Decision.** Adopt VContainer (MIT) with Root/Game/EditorTool LifetimeScopes. The Sim steps via an IFixedTickable entry point owning DT=1/60; View is registered in NetNinja.Composition as an ILateTickable that runs strictly after. To make this real, NetNinja.View references VContainer and NetNinja.Composition references NetNinja.View. Core/Contracts have zero DI reference.
 
@@ -81,6 +90,8 @@
 **Consequences.** Open-question on Fitts/min-jerk/Gaussian reducibility must be resolved BEFORE the port; if any term needs runtime transcendentals it must be pre-baked or the cell is unreproducible; InputEventTrace is human-capture only, resampled offline into per-tick frames.
 
 ## ADR-0009 — Layered embedded-UPM packages, one asmdef per seam, Core references only Contracts
+
+> **Superseded by ADR-0019** (right-sizing): the nine embedded UPM packages collapse to FIVE asmdefs under `Assets/_NetNinja/` (Contracts, Core, View, Editor, App); only `com.netninja.determinism-analyzer` stays a package. The engine-free Contracts/Core asmdefs (noEngineReferences) and Core→Contracts-only edge are preserved verbatim — the compiler-enforced parity spine was never the package ceremony. Retained below as the historical record.
 
 **Decision.** Structure the repo as embedded UPM packages under Packages/ (com.netninja.contracts, .core, .config, .adapters, .view, .composition, .telemetry, .editor, .determinism-analyzer) with strict acyclic references, references by GUID, autoReferenced:false on Contracts/Core. NetNinja.Core references EXACTLY [NetNinja.Contracts]; every other consumer references Contracts (never Core internals) where possible. C# logic stays out of Assets/.
 
@@ -140,15 +151,22 @@
 
 **Consequences.** Core AGENTS.md is the loudest guardrail; MCP agents still go through human-gated check + fetch-before-push + additive-edit discipline.
 
-## ADR-0015 — On-target parity gate is Android arm64 (primary) plus WebGL
+## ADR-0015 — Parity rings are wasm-only: dotnet CoreCLR gate + WebGL ship gate + mobile-vs-desktop wasm cross-hash
 
-**Decision.** The on-target determinism ring runs the 6 golden cells in BOTH an Android arm64 IL2CPP player (fp-contract=off) and a WebGL/wasm player, asserting identical runHashes. Android arm64 is the primary FMA-divergence ring; WebGL remains a ring because it is the shipped responsive target and catches emscripten/libc codegen drift. iOS device parity is deferred to the macOS runner and ledgered.
+**Status.** OWNER RULING (Luther, 2026-07-16): Net Ninja v2 ships as a mobile-first BROWSER game (WebGL/wasm, portrait). No native mobile target is planned. This SUPERSEDES the original "on-target parity gate is Android arm64 (primary) plus WebGL" decision, and is stronger than the review's adr15-ring verdict (which kept arm64 as a non-ship divergence-canary): the arm64 ring is DELETED, not merely relabeled, because there is no arm64 shipped surface to canary. See `docs/DESIGN-PREMISE.md` and ADR-0019.
 
-**Rationale.** WebAssembly f64 is strict IEEE-754 with no FMA, so a WebGL-only ring trivially agrees with Mono editor and never exercises the dangerous case: clang contracting a*b+c into fma on ARM64. The mobile-first product ships on exactly the ARM targets a WebGL-only gate ignores; arm64 must be the primary gate.
+**Decision.** Three concentric rings, all scoped to the actually-shipped wasm surface:
+- **Ring 0 — dotnet CoreCLR parity (LIVE merge gate, 15/15).** Pure managed .NET; no Unity, no license; the tier-1 gate on every diff (ADR-0012).
+- **Ring 1 — WebGL / wasm ship gate (PLACEHOLDER).** Gates the artifact the game actually releases. Placeholder until the node/puppeteer headless hash-capture harness lands; then it replays the oracle traces and asserts runHash parity vs Ring 0.
+- **Ring 2 — mobile-browser vs desktop-browser wasm cross-hash (PLACEHOLDER).** The honest shipped-surface check: same wasm build, mobile vs desktop browser, assert identical runHashes. Expected ZERO divergence under strict IEEE-754 wasm (no FMA); placeholder until the harness exists.
 
-**Alternatives.** WebGL-only (rejected: least-divergence-prone target, false comfort); editor-only (rejected: masks all on-target codegen); arm64-only dropping WebGL (rejected: WebGL is a shipped target with its own codegen risk).
+**Flip condition.** A native mobile release (Play/App Store IL2CPP arm64 binary, not browser) RESURRECTS arm64 as the divergence-canary ring — clang can contract `a*b+c → fma` on ARM64, the one case no wasm target hits — and restores the fp-contract=off proof (ADR-0003). Until such a ship exists, arm64 is not a ring.
 
-**Consequences.** CI needs an Android build + on-device/emulator hash-capture harness; fp-contract=off must be injected and proven; iOS parity is explicitly ledgered as macOS-runner work.
+**Rationale.** WebAssembly f64 is strict IEEE-754 with no FMA. The original ADR kept arm64 as PRIMARY on the premise "the mobile-first product ships on exactly the ARM targets" — false: it ships WebGL. With no native target, an arm64 merge gate blocks around a surface that is never released while under-building the WebGL harness that gates the real one. Ring 2 keeps an on-shipped-surface canary (mobile vs desktop browser) that is honest about what actually ships.
+
+**Alternatives.** Keep arm64 as a non-ship divergence-canary (the review's verdict; rejected by owner: no native ship to de-risk, so it is pure CI/seat debt); WebGL-only single ring (rejected: loses the mobile-vs-desktop cross-hash, the only on-shipped-surface divergence check); arm64-primary as originally written (rejected: gates a non-shipped target).
+
+**Consequences.** `.github/workflows/arm64-parity.yml` + `scripts/run-arm64-parity.sh` are deleted; `docs/parity-rings.md` is rewritten to the three-ring wasm-only model; the node/puppeteer WebGL harness is the real Ring 1/2 build-out. iOS device parity is no longer a ring (browser-only); `ProjectSettings/IL2CPP-NOTES.md`'s fp-contract=off guidance stays as dormant native-build engineering, activated only by the flip condition.
 
 ## ADR-0016 — Pinned hashing canonicalization spec (FNV state + configHash)
 
@@ -187,3 +205,17 @@
 **Rationale.** ADR-0002's allowlist and ADR-0008's "persona generation MUST be bit-exact … resolved BEFORE the port" were written before the port revealed that the plant's Box–Muller/Fitts terms need libm. The shipped analyzer already relaxed the allowlist to admit Log/Log2/Cos (`Tools/determinism-analyzer/AllowlistMathAnalyzer.cs:38-41`), and the gate already replays oracle traces rather than running live personas. This ADR makes the as-built split explicit and honest rather than leaving two ADRs contradicted silently, and hands the real design choice to the owner.
 
 **Consequences.** Personas are non-gating until Luther rules on the fork; the sim-only oracle-trace-replay gate stays green (15/15) as the merge gate; the `LivePersona_MatchesOracleTargets_UntilPlantUlp` test documents the tick-125 boundary rather than asserting parity; arm64/WebGL plant parity stays ledgered as an OPEN, bot-only risk.
+
+## ADR-0019 — Right-sizing the skeleton (packages→asmdefs, stack strip, workstation boundary, wasm-only rings)
+
+**Status.** Accepted (2026-07-16). Records four narrowings ruled by an adversarial 4-judge stress-test (`docs/reviews/2026-07-16-4call-stress.md`, unanimous NARROW ×4) plus one owner ruling. Provenance: that review + `docs/DESIGN-PREMISE.md` (owner premise: mobile-first browser game) + Luther's ADR-0015 ruling in-session. Supersedes ADR-0009 (packaging) and ADR-0006 (DI stack); partially supersedes ADR-0005 (MessagePipe); revises ADR-0001; rewrites ADR-0015. This is a mechanical right-sizing — no new features, gameplay, or model changes; the engine-free Contracts/Core parity spine and the 15/15 gate are preserved.
+
+**1 — Packages → asmdefs (narrows ADR-0009).** The nine embedded UPM packages collapse to FIVE asmdefs under `Assets/_NetNinja/`: `NetNinja.Contracts` + `NetNinja.Core` (both `noEngineReferences:true`, `autoReferenced:false` — moved byte-for-byte, they carry the 15/15 parity proof), `NetNinja.View` (refs Contracts only among game asmdefs), `NetNinja.Editor` (editor-only), and `NetNinja.App` (Config+Adapters+Composition+Telemetry merged; refs Contracts/Core/View + InputSystem/Addressables/Newtonsoft). Runtime sources + their `.meta` were `git mv`'d (GUIDs survive). Only `com.netninja.determinism-analyzer` stays a package (the one rule-of-two candidate — a distributable Roslyn analyzer). No second consumer → packages were single-consumer ceremony; the compiler-enforced asmdefs were not. The `Tools/parity-dotnet` csproj globs + `AnalyzerTripTests` path scan were repointed to the new `Assets/_NetNinja/...` paths.
+
+**2 — Stack strip (narrows ADR-0006).** VContainer, R3, MessagePipe, and UniTask are removed from `Packages/manifest.json` (and the four now-dead scoped-registry scopes: `jp.hadashikick`, `com.cysharp`, plus the already-dead `com.annulusgames`/`com.coffee`) and from every asmdef. Three of the four libs had zero code usage after a day; VContainer's footprint was four empty `Configure()` scopes. The four LifetimeScope/tickable stubs are deleted; one `Assets/_NetNinja/App/Bootstrap.cs` (plain MonoBehaviour) drives the seams by hand: `FixedUpdate()` → `SimPump.Step()` (sim step), `LateUpdate()` → StateProjector/view-apply. UniTask is re-addable in one manifest line the moment an async boot needs it. Unity modules (InputSystem, URP, TMP, Addressables, Newtonsoft) are kept.
+
+**3 — Workstation boundary (revises ADR-0001).** Retitled to "Unity Editor is the engine-native authoring + port-verification surface, not a second design authority." The web workstation owns rule-bearing authoring (exported as truth, ADR-0011); Unity owns engine-native artifacts only; Unity windows are importers/inspectors/runners, never rule-authoring; hand-authored in-editor rule data = ledgered "Untwinned Port" debt. Editor-window stubs re-intented author→inspect/import via header comments only (no functional work).
+
+**4 — wasm-only parity rings (rewrites ADR-0015, OWNER RULING).** Net Ninja v2 ships mobile-first browser; no native target planned. Rings: Ring 0 = dotnet CoreCLR (live merge gate, 15/15); Ring 1 = WebGL/wasm ship gate (placeholder until the node/puppeteer harness lands); Ring 2 = mobile-browser vs desktop-browser wasm cross-hash (placeholder; expected zero divergence under strict IEEE-754 wasm). The arm64 ring is DELETED (`.github/workflows/arm64-parity.yml` + `scripts/run-arm64-parity.sh` removed, `docs/parity-rings.md` rewritten). Flip condition: a native mobile release resurrects arm64 as a canary.
+
+**Consequences.** Migration was cheap because the skeleton is ~1 day old (7 of 8 editor windows were stubs, the parity rings were `exit 0` placeholders, the DI stack had no dependent feature code). The one merge gate (`dotnet test` in `Tools/parity-dotnet`) stays green at 15/15 across the move. Historical package/DI/arm64 layout survives only in the superseded ADRs above and dated docs; living docs (`AGENTS.md`, `README.md`, `docs/parity-rings.md`, `docs/hashing-spec.md`, `docs/seams.md`, `BOOT-BRIEF.generated.md`) are updated to the new layout.
