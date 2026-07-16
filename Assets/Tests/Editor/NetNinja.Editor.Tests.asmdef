@@ -3,7 +3,7 @@
   "references": [
     "NetNinja.Contracts",
     "NetNinja.Core",
-    "NetNinja.Config",
+    "NetNinja.App",
     "NetNinja.Editor"
   ],
   "includePlatforms": [

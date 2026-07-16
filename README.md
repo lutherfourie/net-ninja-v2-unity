@@ -10,4 +10,7 @@ Editor-first Unity 6000.4.3f1 / URP edition of Pawfall's net-catch mechanic.
 
 ## Structure
 
-Embedded UPM packages under `Packages/com.netninja.*`. See `AGENTS.md` and `docs/`.
+Five asmdefs under `Assets/_NetNinja/` — `NetNinja.Contracts`, `NetNinja.Core` (both engine-free),
+`NetNinja.View`, `NetNinja.Editor`, `NetNinja.App` (Config+Adapters+Composition+Telemetry merged).
+Only `com.netninja.determinism-analyzer` remains an embedded UPM package. See `AGENTS.md`, `docs/adr/ADRS.md`
+(ADR-0019), and `docs/`.

@@ -1,53 +1,5 @@
 {
   "dependencies": {
-    "com.netninja.contracts": {
-      "version": "file:com.netninja.contracts",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "com.netninja.core": {
-      "version": "file:com.netninja.core",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "com.netninja.config": {
-      "version": "file:com.netninja.config",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "com.netninja.adapters": {
-      "version": "file:com.netninja.adapters",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "com.netninja.view": {
-      "version": "file:com.netninja.view",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "com.netninja.composition": {
-      "version": "file:com.netninja.composition",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "com.netninja.telemetry": {
-      "version": "file:com.netninja.telemetry",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "com.netninja.editor": {
-      "version": "file:com.netninja.editor",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.netninja.determinism-analyzer": {
       "version": "file:com.netninja.determinism-analyzer",
       "depth": 0,
@@ -107,37 +59,7 @@
       "depth": 0,
       "source": "registry",
       "dependencies": {}
-    },
-    "jp.hadashikick.vcontainer": {
-      "version": "1.16.8",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {}
-    },
-    "com.cysharp.messagepipe": {
-      "version": "1.8.1",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {}
-    },
-    "com.cysharp.messagepipe.vcontainer": {
-      "version": "1.8.1",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {}
-    },
-    "com.cysharp.unitask": {
-      "version": "2.5.10",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {}
-    },
-    "com.cysharp.r3": {
-      "version": "1.3.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {}
     }
   },
-  "_note": "Skeleton lock \u2014 Unity will rewrite on first resolve. Committed so worktrees share intent."
+  "_note": "Skeleton lock — Unity will rewrite on first resolve. Committed so worktrees share intent."
 }

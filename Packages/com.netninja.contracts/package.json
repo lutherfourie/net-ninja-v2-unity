@@ -1,8 +1,0 @@
-{
-  "name": "com.netninja.contracts",
-  "version": "0.1.0",
-  "displayName": "Net Ninja Contracts",
-  "description": "Engine-free boundary types for Net Ninja (interfaces, DTOs, double Vec3).",
-  "unity": "6000.4",
-  "author": { "name": "Net Ninja" }
-}

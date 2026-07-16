@@ -16,10 +16,11 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
-  <!-- Glob engine-free sources directly (no Unity). Exclude local diag/ scratch apps. -->
+  <!-- Glob engine-free sources directly (no Unity). Exclude local diag/ scratch apps.
+       Sources moved Packages/com.netninja.{contracts,core}/Runtime → Assets/_NetNinja/{Contracts,Core} (ADR-0019). -->
   <ItemGroup>
-    <Compile Include="..\..\Packages\com.netninja.contracts\Runtime\**\*.cs" Link="Contracts\%(RecursiveDir)%(Filename)%(Extension)" />
-    <Compile Include="..\..\Packages\com.netninja.core\Runtime\**\*.cs" Link="Core\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\..\Assets\_NetNinja\Contracts\**\*.cs" Link="Contracts\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\..\Assets\_NetNinja\Core\**\*.cs" Link="Core\%(RecursiveDir)%(Filename)%(Extension)" />
     <Compile Remove="diag\**\*" />
     <Compile Remove="diag2\**\*" />
     <None Include="..\..\golden\traces\**\*" Link="golden\traces\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />

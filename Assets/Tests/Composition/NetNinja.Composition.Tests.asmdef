@@ -3,11 +3,8 @@
   "references": [
     "NetNinja.Contracts",
     "NetNinja.Core",
-    "NetNinja.Config",
-    "NetNinja.Adapters",
+    "NetNinja.App",
     "NetNinja.View",
-    "NetNinja.Composition",
-    "VContainer",
     "UnityEngine.TestRunner"
   ],
   "optionalUnityReferences": [

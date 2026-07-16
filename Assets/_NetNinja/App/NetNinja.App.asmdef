@@ -1,0 +1,21 @@
+{
+    "name": "NetNinja.App",
+    "rootNamespace": "NetNinja.App",
+    "references": [
+        "NetNinja.Contracts",
+        "NetNinja.Core",
+        "NetNinja.View",
+        "Unity.InputSystem",
+        "Unity.Addressables",
+        "Unity.Newtonsoft.Json"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

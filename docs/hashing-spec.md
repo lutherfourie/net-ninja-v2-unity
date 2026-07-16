@@ -1,7 +1,7 @@
 # Hashing spec — FNV state hash + configHash
 
 Pinned canonicalization for the parity gate (ADR-0016). This documents **exactly what the
-shipped code does**, not what it should do. Source of truth: `Packages/com.netninja.core/Runtime/State/FnvStateHasher.cs`
+shipped code does**, not what it should do. Source of truth: `Assets/_NetNinja/Core/State/FnvStateHasher.cs`
 (the `Hasher` class + `FnvStateHasher`), a byte-for-byte port of net-lab's oracle
 `packages/core/state.ts`. Any divergence between this doc and that code is a doc bug.
 

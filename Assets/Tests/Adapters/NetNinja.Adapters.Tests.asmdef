@@ -3,7 +3,7 @@
   "references": [
     "NetNinja.Contracts",
     "NetNinja.Core",
-    "NetNinja.Adapters",
+    "NetNinja.App",
     "UnityEngine.TestRunner"
   ],
   "optionalUnityReferences": [
