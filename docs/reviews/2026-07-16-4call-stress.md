@@ -63,7 +63,7 @@ I have enough grounding to rule. Key evidentiary find: pawfall's real editor sur
 ---
 ## adr15-ring
 
-Verified against ADR-0015 (ADRS.md:143-151), docs/parity-rings.md, both placeholder workflows/scripts, and the pawfall README. Ruling:
+Verified against ADR-0015 (`docs/adr/0015-parity-rings-wasm-only.md`), docs/parity-rings.md, both placeholder workflows/scripts, and the pawfall README. Ruling:
 
 ---
 

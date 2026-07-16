@@ -1,0 +1,9 @@
+# ADR-0002 — Determinism via portable double-only FP with an ALLOWLIST analyzer
+
+**Decision.** Contracts, Core, and the persona drivers use double everywhere with only + - * / and Math.Sqrt. The SHIPPED Roslyn ALLOWLIST analyzer (`AllowlistMathAnalyzer.cs:38-41`) permits Math.{Sqrt,Abs,Min,Max,Floor,Ceiling,Truncate} PLUS the provisional plant set {Log,Log2,Cos} — relaxed for the persona Box–Muller/Fitts terms (see ADR-0018) — and errors on the float keyword, Mathf, UnityEngine.Random, Burst, Unity.Mathematics, and every other System.Math member (Pow/Exp/Sin/Tan/Log10/Atan2/Sinh/Cbrt/IEEERemainder…). NOTE (enforcement, as-shipped, ADR-0018): the guard that actually runs is a REGEX SCAN (`\bfloat\b` + `Math.Exp`) in `AnalyzerTripTests`; the Roslyn allowlist analyzer exists but is NOT yet wired as an `<Analyzer>` — wiring is a declared fast-follow. Non-persona transcendentals are pre-baked into config literals offline. No wall-clock; seeded rng and const DT=1/60 only.
+
+**Rationale.** IEEE-754 mandates + - * / and sqrt are correctly-rounded; C# double == JS binary64, so bit-parity is achievable. The original denylist (float/Mathf/Random) missed System.Math transcendentals, which are plain engine-free double and would compile silently — the exact trap this ADR exists to close. An allowlist is the only guard that catches them.
+
+**Alternatives.** Denylist of engine types only (rejected: lets Math.Exp through); fixed-point 32.32 (rejected: incompatible with JS f64 vectors); float (rejected: breaks parity); soft-float (risk-register escape hatch only).
+
+**Consequences.** The analyzer source ships with its own planted-violation trip tests but is NOT yet wired into the build (regex scan is the live guard; Roslyn wiring is a fast-follow — ADR-0018); Sqrt/Log/Log2/Cos are the audited System.Math call sites (Log/Log2/Cos persona-only); parity is re-proven on arm64 + WebGL, not just editor Mono.

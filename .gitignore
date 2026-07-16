@@ -19,6 +19,17 @@ sysinfo.txt
 crashlytics-build.properties
 boot.config
 
+# .meta only belong under Assets/ and Packages/ (GUID integrity).
+# Never track Unity-generated metas on non-Unity roots or top-level folder stubs.
+/*.meta
+/docs/**/*.meta
+/Tools/**/*.meta
+/scripts/**/*.meta
+/golden/**/*.meta
+/config/**/*.meta
+/ProjectSettings/**/*.meta
+/.github/**/*.meta
+
 # Per-worktree
 .utmp/
 
