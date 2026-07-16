@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        target: [Android, WebGL]
+        target: [WebGL]
     steps:
       - uses: actions/checkout@v4
       - name: Placeholder
