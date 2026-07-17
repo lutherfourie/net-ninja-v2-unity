@@ -26,9 +26,15 @@ removed under ADR-0019.
   - `SelfDeterminism` — same (seed, persona) run twice yields the same runHash (catches hidden
     global state).
   - Hasher micro-vectors + `-0.0` normalization + canonical 16-hex configHash.
-  - `AnalyzerTripTests` — the **live determinism guard**: a regex scan (`\bfloat\b` + `Math.Exp`)
-    over `Core`/`Contracts` sources. (The Roslyn allowlist analyzer is NOT yet wired — fast-follow,
-    ADR-0002/0018.)
+  - **Roslyn allowlist analyzer (wired):** `Tools/determinism-analyzer` is referenced from the
+    parity csproj as `OutputItemType="Analyzer"` and fails the build on `NNDET001` (float),
+    `NNDET002` (disallowed `System.Math`), `NNDET003` (engine types). Unity package ships the
+    built DLL at `Packages/com.netninja.determinism-analyzer/Editor/RoslynAnalyzers/` with the
+    `RoslynAnalyzer` label. Deliberate red-build trip:
+    `dotnet build Tools/parity-dotnet/NetNinja.Core.Parity.Tests.csproj -c Release -p:TripAnalyzer=true`
+    (see `Tools/parity-dotnet/analyzer-trip/`).
+  - `AnalyzerTripTests` — belt-and-suspenders regex scan (`\bfloat\b` + `Math.Exp`) over
+    `Core`/`Contracts` sources (still useful as a no-Roslyn fallback).
   - `LivePersona_MatchesOracleTargets_UntilPlantUlp` — **documents** (does not gate) that a live
     C# persona diverges from the oracle at **tick 125** on the first Box–Muller Cos/Log ULP.
 
