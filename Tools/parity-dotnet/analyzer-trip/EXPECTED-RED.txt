@@ -1,0 +1,20 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\determinism-analyzer\AllowlistMathAnalyzer.cs(29,13): warning RS2008: Enable analyzer release tracking for the analyzer project containing rule 'NNDET002' (https://github.com/dotnet/roslyn-analyzers/blob/main/src/Microsoft.CodeAnalysis.Analyzers/ReleaseTrackingAnalyzers.Help.md) [C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\determinism-analyzer\NetNinja.Determinism.Analyzer.csproj]
+C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\determinism-analyzer\AllowlistMathAnalyzer.cs(24,13): warning RS2008: Enable analyzer release tracking for the analyzer project containing rule 'NNDET001' (https://github.com/dotnet/roslyn-analyzers/blob/main/src/Microsoft.CodeAnalysis.Analyzers/ReleaseTrackingAnalyzers.Help.md) [C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\determinism-analyzer\NetNinja.Determinism.Analyzer.csproj]
+C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\determinism-analyzer\AllowlistMathAnalyzer.cs(34,13): warning RS2008: Enable analyzer release tracking for the analyzer project containing rule 'NNDET003' (https://github.com/dotnet/roslyn-analyzers/blob/main/src/Microsoft.CodeAnalysis.Analyzers/ReleaseTrackingAnalyzers.Help.md) [C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\determinism-analyzer\NetNinja.Determinism.Analyzer.csproj]
+  NetNinja.Determinism.Analyzer -> C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\determinism-analyzer\bin\Release\netstandard2.0\NetNinja.Determinism.Analyzer.dll
+C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\parity-dotnet\analyzer-trip\DisallowedCall.cs(10,13): error NNDET001: Type 'float' is forbidden in Contracts/Core (use double) [C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\parity-dotnet\NetNinja.Core.Parity.Tests.csproj]
+C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\parity-dotnet\analyzer-trip\DisallowedCall.cs(11,32): error NNDET002: System.Math.Exp is not allowlisted (permit Sqrt/Abs/Min/Max/Floor/Ceiling/Truncate; plant: Log/Log2/Cos) [C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\parity-dotnet\NetNinja.Core.Parity.Tests.csproj]
+
+Build FAILED.
+
+C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\determinism-analyzer\AllowlistMathAnalyzer.cs(29,13): warning RS2008: Enable analyzer release tracking for the analyzer project containing rule 'NNDET002' (https://github.com/dotnet/roslyn-analyzers/blob/main/src/Microsoft.CodeAnalysis.Analyzers/ReleaseTrackingAnalyzers.Help.md) [C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\determinism-analyzer\NetNinja.Determinism.Analyzer.csproj]
+C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\determinism-analyzer\AllowlistMathAnalyzer.cs(24,13): warning RS2008: Enable analyzer release tracking for the analyzer project containing rule 'NNDET001' (https://github.com/dotnet/roslyn-analyzers/blob/main/src/Microsoft.CodeAnalysis.Analyzers/ReleaseTrackingAnalyzers.Help.md) [C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\determinism-analyzer\NetNinja.Determinism.Analyzer.csproj]
+C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\determinism-analyzer\AllowlistMathAnalyzer.cs(34,13): warning RS2008: Enable analyzer release tracking for the analyzer project containing rule 'NNDET003' (https://github.com/dotnet/roslyn-analyzers/blob/main/src/Microsoft.CodeAnalysis.Analyzers/ReleaseTrackingAnalyzers.Help.md) [C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\determinism-analyzer\NetNinja.Determinism.Analyzer.csproj]
+C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\parity-dotnet\analyzer-trip\DisallowedCall.cs(10,13): error NNDET001: Type 'float' is forbidden in Contracts/Core (use double) [C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\parity-dotnet\NetNinja.Core.Parity.Tests.csproj]
+C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\parity-dotnet\analyzer-trip\DisallowedCall.cs(11,32): error NNDET002: System.Math.Exp is not allowlisted (permit Sqrt/Abs/Min/Max/Floor/Ceiling/Truncate; plant: Log/Log2/Cos) [C:\GameDev\net-ninja-v2-unity-wt-roslyn\Tools\parity-dotnet\NetNinja.Core.Parity.Tests.csproj]
+    3 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:01.83

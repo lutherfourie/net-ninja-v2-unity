@@ -47,9 +47,16 @@ namespace NetNinja.Determinism.Analyzer
         {
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.EnableConcurrentExecution();
-            context.RegisterSyntaxNodeAction(AnalyzePredefinedType, SyntaxKind.PredefinedType);
-            context.RegisterSyntaxNodeAction(AnalyzeMemberAccess, SyntaxKind.SimpleMemberAccessExpression);
-            context.RegisterSyntaxNodeAction(AnalyzeIdentifier, SyntaxKind.IdentifierName);
+            // Scope to engine-free compilations only (Contracts/Core + pure-.NET parity harness).
+            // View/App/Editor intentionally use float/UnityEngine and must not be gated.
+            context.RegisterCompilationStartAction(start =>
+            {
+                if (start.Compilation.GetTypeByMetadataName("UnityEngine.Object") != null)
+                    return;
+                start.RegisterSyntaxNodeAction(AnalyzePredefinedType, SyntaxKind.PredefinedType);
+                start.RegisterSyntaxNodeAction(AnalyzeMemberAccess, SyntaxKind.SimpleMemberAccessExpression);
+                start.RegisterSyntaxNodeAction(AnalyzeIdentifier, SyntaxKind.IdentifierName);
+            });
         }
 
         static void AnalyzePredefinedType(SyntaxNodeAnalysisContext ctx)

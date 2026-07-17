@@ -9,6 +9,11 @@
     <DefineConstants>PARITY_DOTNET</DefineConstants>
   </PropertyGroup>
 
+  <!-- Deliberate red-build: -p:TripAnalyzer=true compiles analyzer-trip/DisallowedCall.cs -->
+  <PropertyGroup Condition="'$(TripAnalyzer)'=='true'">
+    <DefineConstants>$(DefineConstants);TRIP_ANALYZER</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="NUnit" Version="4.3.2" />
@@ -16,11 +21,21 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
+  <!-- Wire the Roslyn allowlist analyzer (NNDET001/002/003) against Core+Contracts sources. -->
+  <ItemGroup>
+    <ProjectReference Include="..\determinism-analyzer\NetNinja.Determinism.Analyzer.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
   <!-- Glob engine-free sources directly (no Unity). Exclude local diag/ scratch apps.
        Sources moved Packages/com.netninja.{contracts,core}/Runtime → Assets/_NetNinja/{Contracts,Core} (ADR-0019). -->
   <ItemGroup>
     <Compile Include="..\..\Assets\_NetNinja\Contracts\**\*.cs" Link="Contracts\%(RecursiveDir)%(Filename)%(Extension)" />
     <Compile Include="..\..\Assets\_NetNinja\Core\**\*.cs" Link="Core\%(RecursiveDir)%(Filename)%(Extension)" />
+    <!-- SDK default globs would always compile analyzer-trip/; remove then re-include only on trip. -->
+    <Compile Remove="analyzer-trip\**\*" />
+    <Compile Include="analyzer-trip\DisallowedCall.cs" Condition="'$(TripAnalyzer)'=='true'" />
     <Compile Remove="diag\**\*" />
     <Compile Remove="diag2\**\*" />
     <None Include="..\..\golden\traces\**\*" Link="golden\traces\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
