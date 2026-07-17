@@ -39,3 +39,18 @@ contract (goal 6ca3b2a1) and is append-only — new owner rulings get dated addi
 - Slice 3's contract therefore starts with an **owner briefing session** (story, the ninja, the
   fantasy, what "defeat spirits" means mechanically); until then Slice 3 prep is limited to
   premise-neutral spine work.
+
+## Ruling 2026-07-17 (owner, via Luther): design pause — the owner completes the mechanics
+
+> "There is a lot of thought being put into the Net Ninja Mechanics by the owner, we'll have to
+> let the owner complete their design choices."
+
+- The brief-grill is ADJOURNED mid-stream. Banked: core verb = A (catch=bind, pour=banish) as the
+  v1 foundation (owner: "not enough in the end" — growth expected); the MORE-VERBS axis is vaulted
+  for its moment; REAL BOSSES ride the mechanics-agnostic Phase-Director substrate
+  (net-lab docs/design/BOSS-ARCHITECTURE.md) once the design lands.
+- Open questions (spirit movement, session shape, pawfall carries, tone/art, v1 scope) WAIT for
+  the owner's completed design. No spirit/boss content gets built from guesses; premise-neutral
+  spine work only.
+- When the owner's design artifacts arrive (idea-lab cards, briefs, decoded vibe material), the
+  lead DECODES them into the Slice-3 contract against the banked grill state — no re-interview.
